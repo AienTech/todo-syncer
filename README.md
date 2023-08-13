@@ -66,10 +66,11 @@ This service provides a robust GraphQL API for managing and synchronizing Todos.
 
    - Clone the repository: `git clone https://github.com/AienTech/aien-saidi-backend-coding-challenge`
    - Install dependencies: `yarn`
-   - Setup the database: `docker compose up -d`
+   - Setup the database: `docker compose pull`
 
 2. **Running the Application**:
 
+   - Start the database: `docker compose up`
    - Start the server: `yarn start:dev`
 
 3. **Tests**:

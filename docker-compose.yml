@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  postgresdb:
+    image: postgres:13
+    volumes:
+      - ./var/pgdata:/var/lib/postgresql/data
+    env_file:
+      - '.env'
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
