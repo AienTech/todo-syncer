@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# **Todo Service**
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A service for managing Todos. Developed as a part of my interview process with [Amie](https://amie.so).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## **Table of Contents**
 
-## Description
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Database Design](#database-design)
+- [API Endpoints](#api-endpoints)
+- [Third-party Integration](#third-party-integration)
+- [Assumptions & Decisions](#assumptions--decisions)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## **Overview**
 
-## Installation
+This service provides a robust GraphQL API for managing and synchronizing Todos. Emphasis was placed on ensuring the application could scale and support multiple simultaneous contributors.
 
-```bash
-$ yarn install
-```
+## **Features**
 
-## Running the app
+- Querying Todos
+  - Filter by status and list.
+- Adding a new Todo.
+- Updating Todos.
+  - Marking them as done.
+- Seamless synchronization with a third-party Todo service.
 
-```bash
-# development
-$ yarn run start
+### **Features not implemented but must be considered**
 
-# watch mode
-$ yarn run start:dev
+- Authentication
+- Data Loading (for scalability)
 
-# production mode
-$ yarn run start:prod
-```
+## **Tech Stack**
 
-## Test
+- **Language**: TypeScript
+- **Backend Framework**: or NestJS
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **GraphQL**: Apollo Server
+- **Containerization**: Docker & Docker Compose
 
-```bash
-# unit tests
-$ yarn run test
+## **Database Design**
 
-# e2e tests
-$ yarn run test:e2e
+- [Prisma](https://www.prisma.io/) is used to generate models for typescript.
 
-# test coverage
-$ yarn run test:cov
-```
+## **API Endpoints**
 
-## Support
+1. `GET /graphql`: For playground (only available in `DEV` env).
+2. `POST /graphql`: For the actual graphql queries.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## **Third-party Integration**
 
-## Stay in touch
+- Todos created in the third-party service are also created in our service.
+- Todos' status is always in sync between our service and the third-party service.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## **Assumptions & Decisions**
 
-## License
+[Placeholder]
 
-Nest is [MIT licensed](LICENSE).
+## **Getting Started**
+
+1. **Setup**:
+
+   - Clone the repository: `git clone https://github.com/AienTech/aien-saidi-backend-coding-challenge`
+   - Install dependencies: `yarn`
+   - Setup the database: `docker compose up -d`
+
+2. **Running the Application**:
+
+   - Start the server: `yarn start:dev`
+
+3. **Tests**:
+   - Run tests: `yarn test`
+
+## **Contributing**
+
+### Conventional commits
+
+I've adopted the Conventional Commits specification for my commit messages. This helps provide an easier-to-read history, ensuring my commits are clear and descriptive. This approach also facilitates a number of key benefits:
+
+- **Automated Changelog Generation**: Conventional commit messages are structured in a way that makes it easier to auto-generate changelogs, ensuring that each change is clearly documented and easily accessible.
+
+- **Semantic Versioning**: By categorizing commits (e.g., feat, fix, chore, docs, etc.), we can use automated tools to bump the semantic version of our project based on the commits since the last release.
