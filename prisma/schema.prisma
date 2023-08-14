@@ -11,6 +11,17 @@ datasource db {
 }
 
 model Todo {
-  id    Int     @default(autoincrement()) @id
+  id            Int     @id @default(autoincrement())
+  title         String
+  description   String?
+  status        Boolean @default(false)
+  list          List    @relation(fields: [listId], references: [id])
+  listId        Int
+  integrationId String? // To track todos synced from third-party services
+}
+
+model List {
+  id    Int    @id @default(autoincrement())
   title String
+  todos Todo[]
 }

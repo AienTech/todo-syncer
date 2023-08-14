@@ -1,11 +1,22 @@
 version: '3'
 
 services:
-  postgresdb:
-    image: postgres:13
-    volumes:
-      - ./var/pgdata:/var/lib/postgresql/data
+  db:
+    container_name: pg_container
+    image: postgres
+    restart: always
     env_file:
-      - '.env'
+      - .env
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - '5050:80'
