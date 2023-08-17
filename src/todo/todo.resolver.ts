@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateOneTodoArgs, FindManyTodoArgs, FindUniqueTodoArgs, Todo } from 'src/@generated';
+import { CreateOneTodoArgs, DeleteOneTodoArgs, FindManyTodoArgs, FindUniqueTodoArgs, Todo, TodoWhereUniqueInput, UpdateOneTodoArgs } from 'src/@generated';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Resolver()
@@ -23,4 +23,32 @@ export class TodoResolver {
 	async createTodo(@Args() args: CreateOneTodoArgs) {
 		return await this.prismaService.todo.create(args);
 	}
+
+	@Mutation(() => Todo)
+	async updateTodo(@Args() args: UpdateOneTodoArgs) {
+		return await this.prismaService.todo.update(args);
+	}
+
+	@Mutation(() => Todo)
+	async deleteTodo(@Args() args: DeleteOneTodoArgs) {
+		return await this.prismaService.todo.delete(args);
+	}
+
+	@Mutation(() => Todo)
+	async markTodoAsDone(@Args('id') id: number) {
+		const todo = await this.prismaService.todo.update({
+			where: {
+				id
+			},
+			data: {
+				status: {
+					set: 'DONE'
+				}
+			}
+		});
+
+		return todo;
+	}
+
+
 }

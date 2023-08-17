@@ -17,7 +17,7 @@ model Todo {
   id            Int     @id @default(autoincrement())
   title         String
   description   String?
-  status        Boolean @default(false)
+  status        Status
   list          List    @relation(fields: [listId], references: [id])
   listId        Int
   integrationId String? // To track todos synced from third-party services
@@ -27,4 +27,10 @@ model List {
   id    Int    @id @default(autoincrement())
   title String
   todos Todo[]
+}
+
+enum Status {
+  TO_DO
+  ON_GOING
+  DONE
 }

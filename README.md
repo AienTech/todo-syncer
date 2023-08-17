@@ -31,7 +31,7 @@ This service provides a robust GraphQL API for managing and synchronizing Todos.
 ### **Features not implemented but must be considered**
 
 - Authentication
-- Data Loading (for scalability)
+- Data Loading (for scalability) to solve `n+1` issues
 
 ## **Tech Stack**
 

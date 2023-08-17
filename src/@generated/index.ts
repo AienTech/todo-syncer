@@ -25,6 +25,12 @@ export enum TransactionIsolationLevel {
     Serializable = "Serializable"
 }
 
+export enum Status {
+    TO_DO = "TO_DO",
+    ON_GOING = "ON_GOING",
+    DONE = "DONE"
+}
+
 export enum SortOrder {
     asc = "asc",
     desc = "desc"
@@ -49,6 +55,7 @@ registerEnumType(ListScalarFieldEnum, { name: 'ListScalarFieldEnum', description
 registerEnumType(NullsOrder, { name: 'NullsOrder', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
 registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
+registerEnumType(Status, { name: 'Status', description: undefined })
 registerEnumType(TransactionIsolationLevel, { name: 'TransactionIsolationLevel', description: undefined })
 registerEnumType(TodoScalarFieldEnum, { name: 'TodoScalarFieldEnum', description: undefined })
 
@@ -634,31 +641,39 @@ export class AffectedRows {
 }
 
 @InputType()
-export class BoolFieldUpdateOperationsInput {
-    @Field(() => Boolean, {nullable:true})
-    set?: boolean;
+export class EnumStatusFieldUpdateOperationsInput {
+    @Field(() => Status, {nullable:true})
+    set?: keyof typeof Status;
 }
 
 @InputType()
-export class BoolFilter {
-    @Field(() => Boolean, {nullable:true})
-    equals?: boolean;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    not?: InstanceType<typeof NestedBoolFilter>;
+export class EnumStatusFilter {
+    @Field(() => Status, {nullable:true})
+    equals?: keyof typeof Status;
+    @Field(() => [Status], {nullable:true})
+    in?: Array<keyof typeof Status>;
+    @Field(() => [Status], {nullable:true})
+    notIn?: Array<keyof typeof Status>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumStatusFilter>;
 }
 
 @InputType()
-export class BoolWithAggregatesFilter {
-    @Field(() => Boolean, {nullable:true})
-    equals?: boolean;
-    @Field(() => NestedBoolWithAggregatesFilter, {nullable:true})
-    not?: InstanceType<typeof NestedBoolWithAggregatesFilter>;
+export class EnumStatusWithAggregatesFilter {
+    @Field(() => Status, {nullable:true})
+    equals?: keyof typeof Status;
+    @Field(() => [Status], {nullable:true})
+    in?: Array<keyof typeof Status>;
+    @Field(() => [Status], {nullable:true})
+    notIn?: Array<keyof typeof Status>;
+    @Field(() => NestedEnumStatusWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumStatusWithAggregatesFilter>;
     @Field(() => NestedIntFilter, {nullable:true})
     _count?: InstanceType<typeof NestedIntFilter>;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    _min?: InstanceType<typeof NestedBoolFilter>;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    _max?: InstanceType<typeof NestedBoolFilter>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedEnumStatusFilter>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedEnumStatusFilter>;
 }
 
 @InputType()
@@ -726,25 +741,33 @@ export class IntWithAggregatesFilter {
 }
 
 @InputType()
-export class NestedBoolFilter {
-    @Field(() => Boolean, {nullable:true})
-    equals?: boolean;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    not?: InstanceType<typeof NestedBoolFilter>;
+export class NestedEnumStatusFilter {
+    @Field(() => Status, {nullable:true})
+    equals?: keyof typeof Status;
+    @Field(() => [Status], {nullable:true})
+    in?: Array<keyof typeof Status>;
+    @Field(() => [Status], {nullable:true})
+    notIn?: Array<keyof typeof Status>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumStatusFilter>;
 }
 
 @InputType()
-export class NestedBoolWithAggregatesFilter {
-    @Field(() => Boolean, {nullable:true})
-    equals?: boolean;
-    @Field(() => NestedBoolWithAggregatesFilter, {nullable:true})
-    not?: InstanceType<typeof NestedBoolWithAggregatesFilter>;
+export class NestedEnumStatusWithAggregatesFilter {
+    @Field(() => Status, {nullable:true})
+    equals?: keyof typeof Status;
+    @Field(() => [Status], {nullable:true})
+    in?: Array<keyof typeof Status>;
+    @Field(() => [Status], {nullable:true})
+    notIn?: Array<keyof typeof Status>;
+    @Field(() => NestedEnumStatusWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumStatusWithAggregatesFilter>;
     @Field(() => NestedIntFilter, {nullable:true})
     _count?: InstanceType<typeof NestedIntFilter>;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    _min?: InstanceType<typeof NestedBoolFilter>;
-    @Field(() => NestedBoolFilter, {nullable:true})
-    _max?: InstanceType<typeof NestedBoolFilter>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedEnumStatusFilter>;
+    @Field(() => NestedEnumStatusFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedEnumStatusFilter>;
 }
 
 @InputType()
@@ -1324,8 +1347,8 @@ export class TodoCreateManyListInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => String, {nullable:true})
     integrationId?: string;
 }
@@ -1338,8 +1361,8 @@ export class TodoCreateManyInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => Int, {nullable:false})
     listId!: number;
     @Field(() => String, {nullable:true})
@@ -1378,8 +1401,8 @@ export class TodoCreateWithoutListInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => String, {nullable:true})
     integrationId?: string;
 }
@@ -1390,8 +1413,8 @@ export class TodoCreateInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => String, {nullable:true})
     integrationId?: string;
     @Field(() => ListCreateNestedOneWithoutTodosInput, {nullable:false})
@@ -1433,8 +1456,8 @@ export class TodoGroupBy {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:false})
-    status!: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => Int, {nullable:false})
     listId!: number;
     @Field(() => String, {nullable:true})
@@ -1485,8 +1508,8 @@ export class TodoMaxAggregate {
     title?: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:true})
+    status?: keyof typeof Status;
     @Field(() => Int, {nullable:true})
     listId?: number;
     @Field(() => String, {nullable:true})
@@ -1533,8 +1556,8 @@ export class TodoMinAggregate {
     title?: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:true})
+    status?: keyof typeof Status;
     @Field(() => Int, {nullable:true})
     listId?: number;
     @Field(() => String, {nullable:true})
@@ -1621,8 +1644,8 @@ export class TodoScalarWhereWithAggregatesInput {
     title?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableWithAggregatesFilter>;
-    @Field(() => BoolWithAggregatesFilter, {nullable:true})
-    status?: InstanceType<typeof BoolWithAggregatesFilter>;
+    @Field(() => EnumStatusWithAggregatesFilter, {nullable:true})
+    status?: InstanceType<typeof EnumStatusWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     listId?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
@@ -1643,8 +1666,8 @@ export class TodoScalarWhereInput {
     title?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
-    @Field(() => BoolFilter, {nullable:true})
-    status?: InstanceType<typeof BoolFilter>;
+    @Field(() => EnumStatusFilter, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFilter>;
     @Field(() => IntFilter, {nullable:true})
     listId?: InstanceType<typeof IntFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -1699,8 +1722,8 @@ export class TodoUncheckedCreateWithoutListInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => String, {nullable:true})
     integrationId?: string;
 }
@@ -1713,8 +1736,8 @@ export class TodoUncheckedCreateInput {
     title!: string;
     @Field(() => String, {nullable:true})
     description?: string;
-    @Field(() => Boolean, {nullable:true})
-    status?: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => Int, {nullable:false})
     listId!: number;
     @Field(() => String, {nullable:true})
@@ -1766,8 +1789,8 @@ export class TodoUncheckedUpdateManyWithoutListInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
 }
@@ -1780,8 +1803,8 @@ export class TodoUncheckedUpdateManyInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     listId?: InstanceType<typeof IntFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -1796,8 +1819,8 @@ export class TodoUncheckedUpdateWithoutListInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
 }
@@ -1810,8 +1833,8 @@ export class TodoUncheckedUpdateInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     listId?: InstanceType<typeof IntFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -1824,8 +1847,8 @@ export class TodoUpdateManyMutationInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
 }
@@ -1893,8 +1916,8 @@ export class TodoUpdateWithoutListInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
 }
@@ -1905,8 +1928,8 @@ export class TodoUpdateInput {
     title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    status?: InstanceType<typeof BoolFieldUpdateOperationsInput>;
+    @Field(() => EnumStatusFieldUpdateOperationsInput, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => ListUpdateOneRequiredWithoutTodosNestedInput, {nullable:true})
@@ -1940,8 +1963,8 @@ export class TodoWhereUniqueInput {
     title?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
-    @Field(() => BoolFilter, {nullable:true})
-    status?: InstanceType<typeof BoolFilter>;
+    @Field(() => EnumStatusFilter, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFilter>;
     @Field(() => IntFilter, {nullable:true})
     listId?: InstanceType<typeof IntFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -1964,8 +1987,8 @@ export class TodoWhereInput {
     title?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
-    @Field(() => BoolFilter, {nullable:true})
-    status?: InstanceType<typeof BoolFilter>;
+    @Field(() => EnumStatusFilter, {nullable:true})
+    status?: InstanceType<typeof EnumStatusFilter>;
     @Field(() => IntFilter, {nullable:true})
     listId?: InstanceType<typeof IntFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -1982,8 +2005,8 @@ export class Todo {
     title!: string;
     @Field(() => String, {nullable:true})
     description!: string | null;
-    @Field(() => Boolean, {nullable:false,defaultValue:false})
-    status!: boolean;
+    @Field(() => Status, {nullable:false})
+    status!: keyof typeof Status;
     @Field(() => Int, {nullable:false})
     listId!: number;
     @Field(() => String, {nullable:true})
