@@ -32,6 +32,7 @@ This service provides a robust GraphQL API for managing and synchronizing Todos.
 
 - Authentication
 - Data Loading (for scalability) to solve `n+1` issues
+- Integration with MS Graph, due to account issues
 
 ## **Tech Stack**
 
@@ -58,7 +59,20 @@ This service provides a robust GraphQL API for managing and synchronizing Todos.
 
 ## **Assumptions & Decisions**
 
-[Placeholder]
+### Data Synchronization with Microsoft Graph
+
+One of the challenges in our application is keeping the local storage (Postgres database) and the third-party storage (Microsoft Graph) synchronized. Here's the approach I've adopted and the rationale behind it.
+
+#### Synchronization Strategies:
+
+- **Polling**: Regularly check Microsoft Graph for updates.
+- **Webhooks**: Rely on Microsoft Graph's notifications for data changes.
+- **Transactional Sync**: Keep both storages in sync in real-time with every change.
+- **Batch Processing**: Synchronize accumulated changes either periodically or upon reaching a threshold.
+
+#### Adopted Strategy: Polling
+
+Given the simplicity and swiftness of its implementation, I've opted for the polling method, particularly suitable for projects at this scale.
 
 ## **Getting Started**
 
