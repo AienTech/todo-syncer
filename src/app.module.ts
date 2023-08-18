@@ -13,6 +13,7 @@ import { TodoService } from './todo/todo.service';
 import { MsGraphController } from './ms-graph/ms-graph.controller';
 import { MockThirdPartyService } from './mock-third-party/mock-third-party.service';
 import { MockThirdPartyController } from './mock-third-party/mock-third-party.controller';
+import { ApiService } from './mock-third-party/api/api.service';
 import * as session from 'express-session';
 
 @Module({
@@ -34,14 +35,17 @@ import * as session from 'express-session';
     // services
     AppService,
     PrismaService,
-
-    // resolvers
-    AppController,
-    TodoResolver,
-    ListResolver,
     MsGraphService,
     TodoService,
     MockThirdPartyService,
+    ApiService,
+
+    // resolvers
+    TodoResolver,
+    ListResolver,
+
+    // controllers
+    AppController,
   ],
 })
 export class AppModule {
