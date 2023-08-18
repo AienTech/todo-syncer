@@ -9,19 +9,18 @@ import {
 } from 'src/@generated';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TodoService } from './todo.service';
-import { Request } from 'express';
 
 @Resolver()
 export class TodoResolver {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly todoService: TodoService,
-  ) { }
+  ) {}
 
   @Query(() => [Todo])
-  async msTodos(@Context('req') req: Request, @Args() args: FindManyTodoArgs) {
+  async msTodos(@Args() args: FindManyTodoArgs) {
     try {
-      const t = await this.todoService.getTodos(req.session['userId']).query({}).get();
+      const t = await this.todoService.getTodos().get();
       console.log(t);
     } catch (err) {
       console.error(err);

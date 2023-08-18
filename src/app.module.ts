@@ -11,6 +11,8 @@ import { ListResolver } from './list/list.resolver';
 import { MsGraphService } from './ms-graph/ms-graph.service';
 import { TodoService } from './todo/todo.service';
 import { MsGraphController } from './ms-graph/ms-graph.controller';
+import { MockThirdPartyService } from './mock-third-party/mock-third-party.service';
+import { MockThirdPartyController } from './mock-third-party/mock-third-party.controller';
 import * as session from 'express-session';
 
 @Module({
@@ -24,10 +26,10 @@ import * as session from 'express-session';
       playground: false,
       installSubscriptionHandlers: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      context: ({ req }) => ({ req })
+      context: ({ req }) => ({ req }),
     }),
   ],
-  controllers: [MsGraphController],
+  controllers: [MsGraphController, MockThirdPartyController],
   providers: [
     // services
     AppService,
@@ -39,6 +41,7 @@ import * as session from 'express-session';
     ListResolver,
     MsGraphService,
     TodoService,
+    MockThirdPartyService,
   ],
 })
 export class AppModule {
@@ -53,13 +56,13 @@ export class AppModule {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000
-          }
+            maxAge: 24 * 60 * 60 * 1000,
+          },
         }),
       )
       .forRoutes({
         path: '*',
-        method: RequestMethod.ALL
+        method: RequestMethod.ALL,
       });
   }
 }
