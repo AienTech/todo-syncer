@@ -1,25 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { List, Todo } from '../mock-third-party.interface';
 
 @Injectable()
 export class ApiService {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly baseUrl: string,
-  ) {
+  private readonly baseUrl: string;
+
+  constructor(private readonly configService: ConfigService) {
     this.baseUrl = `http://localhost:${this.configService.getOrThrow(
       'APP_PORT',
-    )}`;
+    )}/mock-third-party`;
   }
 
   public getAllLists = async () => {
-    return await axios.get(`${this.baseUrl}`);
+    return await axios.get<undefined, AxiosResponse<List[]>>(`${this.baseUrl}`);
   };
 
   public getOneList = async (id: string) => {
-    return await axios.get(`${this.baseUrl}/${id}`);
+    return await axios.get<undefined, AxiosResponse<List>>(
+      `${this.baseUrl}/${id}`,
+    );
   };
 
   public createList = async (todoList: List) => {

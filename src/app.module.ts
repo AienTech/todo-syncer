@@ -15,6 +15,9 @@ import { MockThirdPartyService } from './mock-third-party/mock-third-party.servi
 import { MockThirdPartyController } from './mock-third-party/mock-third-party.controller';
 import { ApiService } from './mock-third-party/api/api.service';
 import * as session from 'express-session';
+import { ScheduleModule } from '@nestjs/schedule';
+import { MutexService } from './mutex/mutex.service';
+import { ListService } from './list/list.service';
 
 @Module({
   imports: [
@@ -29,6 +32,7 @@ import * as session from 'express-session';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       context: ({ req }) => ({ req }),
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [MsGraphController, MockThirdPartyController],
   providers: [
@@ -39,6 +43,8 @@ import * as session from 'express-session';
     TodoService,
     MockThirdPartyService,
     ApiService,
+    MutexService,
+    ListService,
 
     // resolvers
     TodoResolver,

@@ -74,6 +74,28 @@ One of the challenges in our application is keeping the local storage (Postgres 
 
 Given the simplicity and swiftness of its implementation, I've opted for the polling method, particularly suitable for projects at this scale.
 
+### Handling Race Conditions in Polling
+
+Although, race conditions in this project are almost 100% rare, to demonstrate the issue with synching many providers, I thought about providing more info about my approach.
+
+Top challenges I have/had when choosing polling are/were:
+
+- Concurrency: If multiple users/requests try to perform CRUD operations at the same time, it may lead to race conditions.
+- Data Inconsistency: There's a risk of the in-memory array and local database drifting out of sync if operations on one are not reflected in the other.
+- Error Handling: Failures during CRUD operations on either storage solution need to be handled gracefully to ensure one doesn't have an operation succeed while the other fails.
+- Overlapping polls leading to data duplication or misses.
+- Simultaneous data updates causing inconsistencies.
+- Mismatched data processing sequences.
+
+Now for them I had two solutions:
+
+- Use **mutex locks** to prevent overlapping polls. I chose this one.
+- Prioritize updates with timestamps.
+
+**Note, this approach introduces latency in the app.**
+
+Another more "real-world" solution would have be to use a **sequential message queue**, which is completly out of the context if this project.
+
 ## **Getting Started**
 
 1. **Setup**:

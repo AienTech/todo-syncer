@@ -12,21 +12,7 @@ import { TodoService } from './todo.service';
 
 @Resolver()
 export class TodoResolver {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly todoService: TodoService,
-  ) {}
-
-  @Query(() => [Todo])
-  async msTodos(@Args() args: FindManyTodoArgs) {
-    try {
-      const t = await this.todoService.getTodos().get();
-      console.log(t);
-    } catch (err) {
-      console.error(err);
-    }
-    return [];
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
   @Query(() => [Todo])
   async todos(@Args() args: FindManyTodoArgs) {
