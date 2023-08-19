@@ -15,12 +15,22 @@ export class ListResolver {
 
   @Query(() => [List])
   async lists(@Args() args: FindManyListArgs) {
-    return await this.prismaService.list.findMany(args);
+    return await this.prismaService.list.findMany({
+      ...args,
+      include: {
+        todos: true,
+      },
+    });
   }
 
   @Query(() => List)
   async list(@Args() args: FindUniqueListArgs) {
-    return await this.prismaService.list.findUniqueOrThrow(args);
+    return await this.prismaService.list.findUniqueOrThrow({
+      ...args,
+      include: {
+        todos: true,
+      },
+    });
   }
 
   @Mutation(() => List)

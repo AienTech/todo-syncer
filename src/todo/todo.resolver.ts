@@ -4,6 +4,7 @@ import {
   DeleteOneTodoArgs,
   FindManyTodoArgs,
   FindUniqueTodoArgs,
+  Status,
   Todo,
   UpdateOneTodoArgs,
 } from 'src/@generated';
@@ -15,12 +16,22 @@ export class TodoResolver {
 
   @Query(() => [Todo])
   async todos(@Args() args: FindManyTodoArgs) {
-    return await this.prismaService.todo.findMany(args);
+    return await this.prismaService.todo.findMany({
+      ...args,
+      include: {
+        list: true,
+      },
+    });
   }
 
   @Query(() => Todo)
   async todo(@Args() args: FindUniqueTodoArgs) {
-    return await this.prismaService.todo.findUniqueOrThrow(args);
+    return await this.prismaService.todo.findUniqueOrThrow({
+      ...args,
+      include: {
+        list: true,
+      },
+    });
   }
 
   @Mutation(() => Todo)
@@ -46,7 +57,7 @@ export class TodoResolver {
       },
       data: {
         status: {
-          set: 'DONE',
+          set: Status.DONE,
         },
       },
     });
