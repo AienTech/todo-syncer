@@ -16,7 +16,7 @@ export class TodoService {
     private readonly mutexService: MutexService,
     private readonly prismaService: PrismaService,
     private readonly apiService: ApiService,
-  ) { }
+  ) {}
 
   getTodos() {
     try {
