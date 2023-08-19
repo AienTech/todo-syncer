@@ -14,19 +14,24 @@ datasource db {
 }
 
 model Todo {
-  id            Int     @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   title         String
   description   String?
   status        Status
-  list          List    @relation(fields: [listId], references: [id])
+  list          List     @relation(fields: [listId], references: [id])
   listId        Int
-  integrationId String? // To track todos synced from third-party services
+  integrationId String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model List {
-  id    Int    @id @default(autoincrement())
-  title String
-  todos Todo[]
+  id            Int      @id @default(autoincrement())
+  title         String
+  todos         Todo[]
+  integrationId String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 enum Status {

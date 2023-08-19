@@ -23,7 +23,7 @@ export class ApiService {
     );
   };
 
-  public createList = async (todoList: List) => {
+  public createList = async (todoList: Partial<List>) => {
     return await axios.post(`${this.baseUrl}`, todoList);
   };
 

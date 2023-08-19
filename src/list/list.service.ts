@@ -14,7 +14,7 @@ export class ListService {
     private readonly apiService: ApiService,
   ) {}
 
-  @Cron('0/10 * * * * *')
+  @Cron('0/7 * * * * *')
   async sync() {
     if (this.mutexService.mutex.isLocked()) {
       this.logger.log('previous job still running. skipping this iteration');
@@ -27,9 +27,42 @@ export class ListService {
 
         const localLists = await this.prismaService.list.findMany();
 
-        const { data: lists } = await this.apiService.getAllLists();
+        const { data: remoteLists } = await this.apiService.getAllLists();
 
-        console.log({ lists, localLists });
+        // Check for lists that exist remotely but not in local and add them to the local
+        for (const remoteList of remoteLists) {
+          const localList = localLists.find(
+            (l) => l.integrationId === remoteList.id,
+          );
+
+          if (!localList) {
+            this.logger.log(`synchronising ${remoteList.id} with local db`);
+
+            await this.prismaService.list.create({
+              data: {
+                integrationId: remoteList.id,
+                title: remoteList.displayName,
+              },
+            });
+          }
+        }
+
+        // Check for lists that exist locally but not in remote and add them to the remote
+        for (const localList of localLists) {
+          if (
+            !remoteLists.some(
+              (remoteList) => remoteList.id === localList.integrationId,
+            )
+          ) {
+            this.logger.log(`synchronising ${localList.id} with remote db`);
+
+            await this.apiService.createList({
+              id: localList.integrationId,
+              displayName: localList.title,
+              wellknownListName: localList.title,
+            });
+          }
+        }
 
         this.logger.log('finished list sync cron job');
       } catch (error) {

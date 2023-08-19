@@ -1,4 +1,4 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   CreateOneTodoArgs,
   DeleteOneTodoArgs,
@@ -8,7 +8,6 @@ import {
   UpdateOneTodoArgs,
 } from 'src/@generated';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TodoService } from './todo.service';
 
 @Resolver()
 export class TodoResolver {

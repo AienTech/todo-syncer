@@ -16,6 +16,8 @@ export enum TodoScalarFieldEnum {
   status = 'status',
   listId = 'listId',
   integrationId = 'integrationId',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
 }
 
 export enum TransactionIsolationLevel {
@@ -49,6 +51,9 @@ export enum NullsOrder {
 export enum ListScalarFieldEnum {
   id = 'id',
   title = 'title',
+  integrationId = 'integrationId',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
 }
 
 registerEnumType(ListScalarFieldEnum, {
@@ -109,7 +114,7 @@ export class DeleteManyListArgs {
 export class DeleteOneListArgs {
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
@@ -120,7 +125,7 @@ export class FindFirstListOrThrowArgs {
   @Field(() => [ListOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<ListOrderByWithRelationInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -137,7 +142,7 @@ export class FindFirstListArgs {
   @Field(() => [ListOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<ListOrderByWithRelationInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -154,7 +159,7 @@ export class FindManyListArgs {
   @Field(() => [ListOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<ListOrderByWithRelationInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -167,14 +172,14 @@ export class FindManyListArgs {
 export class FindUniqueListOrThrowArgs {
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
 export class FindUniqueListArgs {
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
@@ -185,7 +190,7 @@ export class ListAggregateArgs {
   @Field(() => [ListOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<ListOrderByWithRelationInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -227,6 +232,12 @@ export class ListCountAggregateInput {
   @Field(() => Boolean, { nullable: true })
   title?: true;
   @Field(() => Boolean, { nullable: true })
+  integrationId?: true;
+  @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
+  @Field(() => Boolean, { nullable: true })
   _all?: true;
 }
 
@@ -237,6 +248,12 @@ export class ListCountAggregate {
   @Field(() => Int, { nullable: false })
   title!: number;
   @Field(() => Int, { nullable: false })
+  integrationId!: number;
+  @Field(() => Int, { nullable: false })
+  createdAt!: number;
+  @Field(() => Int, { nullable: false })
+  updatedAt!: number;
+  @Field(() => Int, { nullable: false })
   _all!: number;
 }
 
@@ -246,6 +263,12 @@ export class ListCountOrderByAggregateInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @ObjectType()
@@ -260,6 +283,12 @@ export class ListCreateManyInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -272,14 +301,14 @@ export class ListCreateNestedOneWithoutTodosInput {
   connectOrCreate?: InstanceType<typeof ListCreateOrConnectWithoutTodosInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
   @Type(() => ListWhereUniqueInput)
-  connect?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  connect?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @InputType()
 export class ListCreateOrConnectWithoutTodosInput {
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => ListCreateWithoutTodosInput, { nullable: false })
   @Type(() => ListCreateWithoutTodosInput)
   create!: InstanceType<typeof ListCreateWithoutTodosInput>;
@@ -289,12 +318,24 @@ export class ListCreateOrConnectWithoutTodosInput {
 export class ListCreateWithoutTodosInput {
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
 export class ListCreateInput {
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
   @Field(() => TodoCreateNestedManyWithoutListInput, { nullable: true })
   todos?: InstanceType<typeof TodoCreateNestedManyWithoutListInput>;
 }
@@ -332,6 +373,12 @@ export class ListGroupBy {
   id!: number;
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: false })
+  createdAt!: Date | string;
+  @Field(() => Date, { nullable: false })
+  updatedAt!: Date | string;
   @Field(() => ListCountAggregate, { nullable: true })
   _count?: InstanceType<typeof ListCountAggregate>;
   @Field(() => ListAvgAggregate, { nullable: true })
@@ -350,6 +397,12 @@ export class ListMaxAggregateInput {
   id?: true;
   @Field(() => Boolean, { nullable: true })
   title?: true;
+  @Field(() => Boolean, { nullable: true })
+  integrationId?: true;
+  @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
 }
 
 @ObjectType()
@@ -358,6 +411,12 @@ export class ListMaxAggregate {
   id?: number;
   @Field(() => String, { nullable: true })
   title?: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -366,6 +425,12 @@ export class ListMaxOrderByAggregateInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -374,6 +439,12 @@ export class ListMinAggregateInput {
   id?: true;
   @Field(() => Boolean, { nullable: true })
   title?: true;
+  @Field(() => Boolean, { nullable: true })
+  integrationId?: true;
+  @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
 }
 
 @ObjectType()
@@ -382,6 +453,12 @@ export class ListMinAggregate {
   id?: number;
   @Field(() => String, { nullable: true })
   title?: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -390,6 +467,12 @@ export class ListMinOrderByAggregateInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -398,6 +481,12 @@ export class ListOrderByWithAggregationInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
+  @Field(() => SortOrderInput, { nullable: true })
+  integrationId?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
   @Field(() => ListCountOrderByAggregateInput, { nullable: true })
   _count?: InstanceType<typeof ListCountOrderByAggregateInput>;
   @Field(() => ListAvgOrderByAggregateInput, { nullable: true })
@@ -416,6 +505,12 @@ export class ListOrderByWithRelationInput {
   id?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   title?: keyof typeof SortOrder;
+  @Field(() => SortOrderInput, { nullable: true })
+  integrationId?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
   @Field(() => TodoOrderByRelationAggregateInput, { nullable: true })
   todos?: InstanceType<typeof TodoOrderByRelationAggregateInput>;
 }
@@ -440,6 +535,12 @@ export class ListScalarWhereWithAggregatesInput {
   id?: InstanceType<typeof IntWithAggregatesFilter>;
   @Field(() => StringWithAggregatesFilter, { nullable: true })
   title?: InstanceType<typeof StringWithAggregatesFilter>;
+  @Field(() => StringNullableWithAggregatesFilter, { nullable: true })
+  integrationId?: InstanceType<typeof StringNullableWithAggregatesFilter>;
+  @Field(() => DateTimeWithAggregatesFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+  @Field(() => DateTimeWithAggregatesFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
 
 @InputType()
@@ -466,6 +567,12 @@ export class ListUncheckedCreateWithoutTodosInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -474,6 +581,12 @@ export class ListUncheckedCreateInput {
   id?: number;
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
   @Field(() => TodoUncheckedCreateNestedManyWithoutListInput, {
     nullable: true,
   })
@@ -486,6 +599,12 @@ export class ListUncheckedUpdateManyInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -494,6 +613,12 @@ export class ListUncheckedUpdateWithoutTodosInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -502,6 +627,12 @@ export class ListUncheckedUpdateInput {
   id?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
   @Field(() => TodoUncheckedUpdateManyWithoutListNestedInput, {
     nullable: true,
   })
@@ -512,6 +643,12 @@ export class ListUncheckedUpdateInput {
 export class ListUpdateManyMutationInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -527,7 +664,7 @@ export class ListUpdateOneRequiredWithoutTodosNestedInput {
   upsert?: InstanceType<typeof ListUpsertWithoutTodosInput>;
   @Field(() => ListWhereUniqueInput, { nullable: true })
   @Type(() => ListWhereUniqueInput)
-  connect?: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  connect?: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => ListUpdateToOneWithWhereWithoutTodosInput, { nullable: true })
   @Type(() => ListUpdateToOneWithWhereWithoutTodosInput)
   update?: InstanceType<typeof ListUpdateToOneWithWhereWithoutTodosInput>;
@@ -547,12 +684,24 @@ export class ListUpdateToOneWithWhereWithoutTodosInput {
 export class ListUpdateWithoutTodosInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
 export class ListUpdateInput {
   @Field(() => StringFieldUpdateOperationsInput, { nullable: true })
   title?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+  @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
+  integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
   @Field(() => TodoUpdateManyWithoutListNestedInput, { nullable: true })
   todos?: InstanceType<typeof TodoUpdateManyWithoutListNestedInput>;
 }
@@ -574,6 +723,8 @@ export class ListUpsertWithoutTodosInput {
 export class ListWhereUniqueInput {
   @Field(() => Int, { nullable: true })
   id?: number;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
   @Field(() => [ListWhereInput], { nullable: true })
   AND?: Array<ListWhereInput>;
   @Field(() => [ListWhereInput], { nullable: true })
@@ -582,6 +733,10 @@ export class ListWhereUniqueInput {
   NOT?: Array<ListWhereInput>;
   @Field(() => StringFilter, { nullable: true })
   title?: InstanceType<typeof StringFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFilter>;
   @Field(() => TodoListRelationFilter, { nullable: true })
   todos?: InstanceType<typeof TodoListRelationFilter>;
 }
@@ -598,6 +753,12 @@ export class ListWhereInput {
   id?: InstanceType<typeof IntFilter>;
   @Field(() => StringFilter, { nullable: true })
   title?: InstanceType<typeof StringFilter>;
+  @Field(() => StringNullableFilter, { nullable: true })
+  integrationId?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFilter>;
   @Field(() => TodoListRelationFilter, { nullable: true })
   todos?: InstanceType<typeof TodoListRelationFilter>;
 }
@@ -608,6 +769,12 @@ export class List {
   id!: number;
   @Field(() => String, { nullable: false })
   title!: string;
+  @Field(() => String, { nullable: true })
+  integrationId!: string | null;
+  @Field(() => Date, { nullable: false })
+  createdAt!: Date;
+  @Field(() => Date, { nullable: false })
+  updatedAt!: Date;
   @Field(() => [Todo], { nullable: true })
   todos?: Array<Todo>;
   @Field(() => ListCount, { nullable: false })
@@ -631,14 +798,14 @@ export class UpdateOneListArgs {
   data!: InstanceType<typeof ListUpdateInput>;
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
 export class UpsertOneListArgs {
   @Field(() => ListWhereUniqueInput, { nullable: false })
   @Type(() => ListWhereUniqueInput)
-  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<ListWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => ListCreateInput, { nullable: false })
   @Type(() => ListCreateInput)
   create!: InstanceType<typeof ListCreateInput>;
@@ -651,6 +818,58 @@ export class UpsertOneListArgs {
 export class AffectedRows {
   @Field(() => Int, { nullable: false })
   count!: number;
+}
+
+@InputType()
+export class DateTimeFieldUpdateOperationsInput {
+  @Field(() => Date, { nullable: true })
+  set?: Date | string;
+}
+
+@InputType()
+export class DateTimeFilter {
+  @Field(() => Date, { nullable: true })
+  equals?: Date | string;
+  @Field(() => [Date], { nullable: true })
+  in?: Array<Date> | Array<string>;
+  @Field(() => [Date], { nullable: true })
+  notIn?: Array<Date> | Array<string>;
+  @Field(() => Date, { nullable: true })
+  lt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  lte?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gte?: Date | string;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  not?: InstanceType<typeof NestedDateTimeFilter>;
+}
+
+@InputType()
+export class DateTimeWithAggregatesFilter {
+  @Field(() => Date, { nullable: true })
+  equals?: Date | string;
+  @Field(() => [Date], { nullable: true })
+  in?: Array<Date> | Array<string>;
+  @Field(() => [Date], { nullable: true })
+  notIn?: Array<Date> | Array<string>;
+  @Field(() => Date, { nullable: true })
+  lt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  lte?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gte?: Date | string;
+  @Field(() => NestedDateTimeWithAggregatesFilter, { nullable: true })
+  not?: InstanceType<typeof NestedDateTimeWithAggregatesFilter>;
+  @Field(() => NestedIntFilter, { nullable: true })
+  _count?: InstanceType<typeof NestedIntFilter>;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  _min?: InstanceType<typeof NestedDateTimeFilter>;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  _max?: InstanceType<typeof NestedDateTimeFilter>;
 }
 
 @InputType()
@@ -751,6 +970,52 @@ export class IntWithAggregatesFilter {
   _min?: InstanceType<typeof NestedIntFilter>;
   @Field(() => NestedIntFilter, { nullable: true })
   _max?: InstanceType<typeof NestedIntFilter>;
+}
+
+@InputType()
+export class NestedDateTimeFilter {
+  @Field(() => Date, { nullable: true })
+  equals?: Date | string;
+  @Field(() => [Date], { nullable: true })
+  in?: Array<Date> | Array<string>;
+  @Field(() => [Date], { nullable: true })
+  notIn?: Array<Date> | Array<string>;
+  @Field(() => Date, { nullable: true })
+  lt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  lte?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gte?: Date | string;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  not?: InstanceType<typeof NestedDateTimeFilter>;
+}
+
+@InputType()
+export class NestedDateTimeWithAggregatesFilter {
+  @Field(() => Date, { nullable: true })
+  equals?: Date | string;
+  @Field(() => [Date], { nullable: true })
+  in?: Array<Date> | Array<string>;
+  @Field(() => [Date], { nullable: true })
+  notIn?: Array<Date> | Array<string>;
+  @Field(() => Date, { nullable: true })
+  lt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  lte?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  gte?: Date | string;
+  @Field(() => NestedDateTimeWithAggregatesFilter, { nullable: true })
+  not?: InstanceType<typeof NestedDateTimeWithAggregatesFilter>;
+  @Field(() => NestedIntFilter, { nullable: true })
+  _count?: InstanceType<typeof NestedIntFilter>;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  _min?: InstanceType<typeof NestedDateTimeFilter>;
+  @Field(() => NestedDateTimeFilter, { nullable: true })
+  _max?: InstanceType<typeof NestedDateTimeFilter>;
 }
 
 @InputType()
@@ -1174,7 +1439,7 @@ export class DeleteManyTodoArgs {
 export class DeleteOneTodoArgs {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
@@ -1185,7 +1450,7 @@ export class FindFirstTodoOrThrowArgs {
   @Field(() => [TodoOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<TodoOrderByWithRelationInput>;
   @Field(() => TodoWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -1202,7 +1467,7 @@ export class FindFirstTodoArgs {
   @Field(() => [TodoOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<TodoOrderByWithRelationInput>;
   @Field(() => TodoWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -1219,7 +1484,7 @@ export class FindManyTodoArgs {
   @Field(() => [TodoOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<TodoOrderByWithRelationInput>;
   @Field(() => TodoWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -1232,14 +1497,14 @@ export class FindManyTodoArgs {
 export class FindUniqueTodoOrThrowArgs {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
 export class FindUniqueTodoArgs {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
@@ -1250,7 +1515,7 @@ export class TodoAggregateArgs {
   @Field(() => [TodoOrderByWithRelationInput], { nullable: true })
   orderBy?: Array<TodoOrderByWithRelationInput>;
   @Field(() => TodoWhereUniqueInput, { nullable: true })
-  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  cursor?: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => Int, { nullable: true })
   take?: number;
   @Field(() => Int, { nullable: true })
@@ -1306,6 +1571,10 @@ export class TodoCountAggregateInput {
   @Field(() => Boolean, { nullable: true })
   integrationId?: true;
   @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
+  @Field(() => Boolean, { nullable: true })
   _all?: true;
 }
 
@@ -1324,6 +1593,10 @@ export class TodoCountAggregate {
   @Field(() => Int, { nullable: false })
   integrationId!: number;
   @Field(() => Int, { nullable: false })
+  createdAt!: number;
+  @Field(() => Int, { nullable: false })
+  updatedAt!: number;
+  @Field(() => Int, { nullable: false })
   _all!: number;
 }
 
@@ -1341,6 +1614,10 @@ export class TodoCountOrderByAggregateInput {
   listId?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1364,6 +1641,10 @@ export class TodoCreateManyListInput {
   status!: keyof typeof Status;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1380,6 +1661,10 @@ export class TodoCreateManyInput {
   listId!: number;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1395,14 +1680,14 @@ export class TodoCreateNestedManyWithoutListInput {
   createMany?: InstanceType<typeof TodoCreateManyListInputEnvelope>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
 }
 
 @InputType()
 export class TodoCreateOrConnectWithoutListInput {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => TodoCreateWithoutListInput, { nullable: false })
   @Type(() => TodoCreateWithoutListInput)
   create!: InstanceType<typeof TodoCreateWithoutListInput>;
@@ -1418,6 +1703,10 @@ export class TodoCreateWithoutListInput {
   status!: keyof typeof Status;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1430,6 +1719,10 @@ export class TodoCreateInput {
   status!: keyof typeof Status;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
   @Field(() => ListCreateNestedOneWithoutTodosInput, { nullable: false })
   list!: InstanceType<typeof ListCreateNestedOneWithoutTodosInput>;
 }
@@ -1475,6 +1768,10 @@ export class TodoGroupBy {
   listId!: number;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: false })
+  createdAt!: Date | string;
+  @Field(() => Date, { nullable: false })
+  updatedAt!: Date | string;
   @Field(() => TodoCountAggregate, { nullable: true })
   _count?: InstanceType<typeof TodoCountAggregate>;
   @Field(() => TodoAvgAggregate, { nullable: true })
@@ -1511,6 +1808,10 @@ export class TodoMaxAggregateInput {
   listId?: true;
   @Field(() => Boolean, { nullable: true })
   integrationId?: true;
+  @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
 }
 
 @ObjectType()
@@ -1527,6 +1828,10 @@ export class TodoMaxAggregate {
   listId?: number;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1543,6 +1848,10 @@ export class TodoMaxOrderByAggregateInput {
   listId?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1559,6 +1868,10 @@ export class TodoMinAggregateInput {
   listId?: true;
   @Field(() => Boolean, { nullable: true })
   integrationId?: true;
+  @Field(() => Boolean, { nullable: true })
+  createdAt?: true;
+  @Field(() => Boolean, { nullable: true })
+  updatedAt?: true;
 }
 
 @ObjectType()
@@ -1575,6 +1888,10 @@ export class TodoMinAggregate {
   listId?: number;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1591,6 +1908,10 @@ export class TodoMinOrderByAggregateInput {
   listId?: keyof typeof SortOrder;
   @Field(() => SortOrder, { nullable: true })
   integrationId?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1613,6 +1934,10 @@ export class TodoOrderByWithAggregationInput {
   listId?: keyof typeof SortOrder;
   @Field(() => SortOrderInput, { nullable: true })
   integrationId?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
   @Field(() => TodoCountOrderByAggregateInput, { nullable: true })
   _count?: InstanceType<typeof TodoCountOrderByAggregateInput>;
   @Field(() => TodoAvgOrderByAggregateInput, { nullable: true })
@@ -1639,6 +1964,10 @@ export class TodoOrderByWithRelationInput {
   listId?: keyof typeof SortOrder;
   @Field(() => SortOrderInput, { nullable: true })
   integrationId?: InstanceType<typeof SortOrderInput>;
+  @Field(() => SortOrder, { nullable: true })
+  createdAt?: keyof typeof SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  updatedAt?: keyof typeof SortOrder;
   @Field(() => ListOrderByWithRelationInput, { nullable: true })
   list?: InstanceType<typeof ListOrderByWithRelationInput>;
 }
@@ -1663,6 +1992,10 @@ export class TodoScalarWhereWithAggregatesInput {
   listId?: InstanceType<typeof IntWithAggregatesFilter>;
   @Field(() => StringNullableWithAggregatesFilter, { nullable: true })
   integrationId?: InstanceType<typeof StringNullableWithAggregatesFilter>;
+  @Field(() => DateTimeWithAggregatesFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+  @Field(() => DateTimeWithAggregatesFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
 
 @InputType()
@@ -1685,6 +2018,10 @@ export class TodoScalarWhereInput {
   listId?: InstanceType<typeof IntFilter>;
   @Field(() => StringNullableFilter, { nullable: true })
   integrationId?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFilter>;
 }
 
 @InputType()
@@ -1724,7 +2061,7 @@ export class TodoUncheckedCreateNestedManyWithoutListInput {
   createMany?: InstanceType<typeof TodoCreateManyListInputEnvelope>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
 }
 
 @InputType()
@@ -1739,6 +2076,10 @@ export class TodoUncheckedCreateWithoutListInput {
   status!: keyof typeof Status;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1755,6 +2096,10 @@ export class TodoUncheckedCreateInput {
   listId!: number;
   @Field(() => String, { nullable: true })
   integrationId?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date | string;
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date | string;
 }
 
 @InputType()
@@ -1773,16 +2118,18 @@ export class TodoUncheckedUpdateManyWithoutListNestedInput {
   createMany?: InstanceType<typeof TodoCreateManyListInputEnvelope>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  disconnect?: Array<
+    Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>
+  >;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoUpdateWithWhereUniqueWithoutListInput], { nullable: true })
   @Type(() => TodoUpdateWithWhereUniqueWithoutListInput)
   update?: Array<TodoUpdateWithWhereUniqueWithoutListInput>;
@@ -1806,6 +2153,10 @@ export class TodoUncheckedUpdateManyWithoutListInput {
   status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1822,6 +2173,10 @@ export class TodoUncheckedUpdateManyInput {
   listId?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1836,6 +2191,10 @@ export class TodoUncheckedUpdateWithoutListInput {
   status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1852,6 +2211,10 @@ export class TodoUncheckedUpdateInput {
   listId?: InstanceType<typeof IntFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1864,6 +2227,10 @@ export class TodoUpdateManyMutationInput {
   status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1892,16 +2259,18 @@ export class TodoUpdateManyWithoutListNestedInput {
   createMany?: InstanceType<typeof TodoCreateManyListInputEnvelope>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  set?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  set?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  disconnect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  disconnect?: Array<
+    Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>
+  >;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  delete?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  delete?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoWhereUniqueInput], { nullable: true })
   @Type(() => TodoWhereUniqueInput)
-  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id'>>;
+  connect?: Array<Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>>;
   @Field(() => [TodoUpdateWithWhereUniqueWithoutListInput], { nullable: true })
   @Type(() => TodoUpdateWithWhereUniqueWithoutListInput)
   update?: Array<TodoUpdateWithWhereUniqueWithoutListInput>;
@@ -1917,7 +2286,7 @@ export class TodoUpdateManyWithoutListNestedInput {
 export class TodoUpdateWithWhereUniqueWithoutListInput {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => TodoUpdateWithoutListInput, { nullable: false })
   @Type(() => TodoUpdateWithoutListInput)
   data!: InstanceType<typeof TodoUpdateWithoutListInput>;
@@ -1933,6 +2302,10 @@ export class TodoUpdateWithoutListInput {
   status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
 }
 
 @InputType()
@@ -1945,6 +2318,10 @@ export class TodoUpdateInput {
   status?: InstanceType<typeof EnumStatusFieldUpdateOperationsInput>;
   @Field(() => NullableStringFieldUpdateOperationsInput, { nullable: true })
   integrationId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+  @Field(() => DateTimeFieldUpdateOperationsInput, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
   @Field(() => ListUpdateOneRequiredWithoutTodosNestedInput, { nullable: true })
   list?: InstanceType<typeof ListUpdateOneRequiredWithoutTodosNestedInput>;
 }
@@ -1953,7 +2330,7 @@ export class TodoUpdateInput {
 export class TodoUpsertWithWhereUniqueWithoutListInput {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => TodoUpdateWithoutListInput, { nullable: false })
   @Type(() => TodoUpdateWithoutListInput)
   update!: InstanceType<typeof TodoUpdateWithoutListInput>;
@@ -1966,6 +2343,8 @@ export class TodoUpsertWithWhereUniqueWithoutListInput {
 export class TodoWhereUniqueInput {
   @Field(() => Int, { nullable: true })
   id?: number;
+  @Field(() => String, { nullable: true })
+  integrationId?: string;
   @Field(() => [TodoWhereInput], { nullable: true })
   AND?: Array<TodoWhereInput>;
   @Field(() => [TodoWhereInput], { nullable: true })
@@ -1980,8 +2359,10 @@ export class TodoWhereUniqueInput {
   status?: InstanceType<typeof EnumStatusFilter>;
   @Field(() => IntFilter, { nullable: true })
   listId?: InstanceType<typeof IntFilter>;
-  @Field(() => StringNullableFilter, { nullable: true })
-  integrationId?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFilter>;
   @Field(() => ListRelationFilter, { nullable: true })
   list?: InstanceType<typeof ListRelationFilter>;
 }
@@ -2006,6 +2387,10 @@ export class TodoWhereInput {
   listId?: InstanceType<typeof IntFilter>;
   @Field(() => StringNullableFilter, { nullable: true })
   integrationId?: InstanceType<typeof StringNullableFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  createdAt?: InstanceType<typeof DateTimeFilter>;
+  @Field(() => DateTimeFilter, { nullable: true })
+  updatedAt?: InstanceType<typeof DateTimeFilter>;
   @Field(() => ListRelationFilter, { nullable: true })
   list?: InstanceType<typeof ListRelationFilter>;
 }
@@ -2024,6 +2409,10 @@ export class Todo {
   listId!: number;
   @Field(() => String, { nullable: true })
   integrationId!: string | null;
+  @Field(() => Date, { nullable: false })
+  createdAt!: Date;
+  @Field(() => Date, { nullable: false })
+  updatedAt!: Date;
   @Field(() => List, { nullable: false })
   list?: InstanceType<typeof List>;
 }
@@ -2045,14 +2434,14 @@ export class UpdateOneTodoArgs {
   data!: InstanceType<typeof TodoUpdateInput>;
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
 }
 
 @ArgsType()
 export class UpsertOneTodoArgs {
   @Field(() => TodoWhereUniqueInput, { nullable: false })
   @Type(() => TodoWhereUniqueInput)
-  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id'>;
+  where!: Prisma.AtLeast<TodoWhereUniqueInput, 'id' | 'integrationId'>;
   @Field(() => TodoCreateInput, { nullable: false })
   @Type(() => TodoCreateInput)
   create!: InstanceType<typeof TodoCreateInput>;
