@@ -1,6 +1,6 @@
 # **Todo Service**
 
-A service for managing Todos. Developed as a part of my interview process with [Amie](https://amie.so).
+A service for managing Todos. Developed as a fun project.
 
 ## **Table of Contents**
 
@@ -111,13 +111,3 @@ Another more "real-world" solution would have be to use a **sequential message q
 
 3. **Tests**:
    - Run tests: `yarn test`
-
-## **Contributing**
-
-### Conventional commits
-
-I've adopted the Conventional Commits specification for my commit messages. This helps provide an easier-to-read history, ensuring my commits are clear and descriptive. This approach also facilitates a number of key benefits:
-
-- **Automated Changelog Generation**: Conventional commit messages are structured in a way that makes it easier to auto-generate changelogs, ensuring that each change is clearly documented and easily accessible.
-
-- **Semantic Versioning**: By categorizing commits (e.g., feat, fix, chore, docs, etc.), we can use automated tools to bump the semantic version of our project based on the commits since the last release.
